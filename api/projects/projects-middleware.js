@@ -34,6 +34,20 @@ async function validateProjectId(req, res, next) {
       next()
     }
   }
+  function validateProjectForPut(req, res, next) {
+    // DO YOUR MAGIC
+    const { name, description, completed } = req.body;
+    if (!name || !description || completed === undefined) {
+      res.status(400).json({
+        message: "name, description, and completed fields required"
+      })
+    } else {
+      req.name = name
+      req.description = description
+      req.completed = completed
+      next()
+    }
+  }
   
 //   function validatePost(req, res, next) {
 //     // DO YOUR MAGIC
@@ -52,5 +66,6 @@ async function validateProjectId(req, res, next) {
   
   module.exports = {
    validateProjectId,
-   validateProject
+   validateProject,
+   validateProjectForPut
   }
