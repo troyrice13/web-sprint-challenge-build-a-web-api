@@ -1,6 +1,7 @@
 const express = require('express');
 const server = express();
 const projectsRouter = require('../api/projects/projects-router')
+const actionsRouter = require('../api/actions/actions-router')
 
 server.use(express.json())
 
@@ -10,6 +11,7 @@ server.use(express.json())
 // Do NOT `server.listen()` inside this file!
 
 server.use('/api/projects', projectsRouter)
+server.use('/api/actions', actionsRouter)
 
 server.get('/', (req, res) => {
     res.send(`<h2>Let's get to it</h2>`);
