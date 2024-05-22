@@ -10,7 +10,9 @@ router.get('/', (req, res, next) => {
         .then(project => {
             res.json(project)
         })
-        .catch(next)
+        .catch(err => {
+            next(err)
+        })
 })
 
 router.get('/:id', validateProjectId, async (req, res) => {
@@ -36,5 +38,26 @@ router.put('/:id', validateProjectForPut, validateProjectId, async (req, res, ne
     }
   });
 
+  router.delete('/:id', validateProjectId, (req, res, next) => {
+    Projects.remove(req.params.id)
+        .then(project => {
+            project = req.project
+            res.json(project)
+        })
+        .catch(err => {
+            next(err)
+        })
+  })
+
+
+  router.get('/:id/actions', validateProjectId, (req, res, next) => {
+    Projects.getProjectActions(req.params.id)
+        .then(actions => {
+            res.json(actions)
+        })
+        .catch(err => {
+            next(err)
+        })
+  })
 
 module.exports = router
