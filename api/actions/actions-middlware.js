@@ -40,7 +40,30 @@ async function validateActionId(req, res, next) {
     }
   }
 
+  function validateActionForPut (req, res, next) {
+    // DO YOUR MAGIC
+    const { project_id, description, notes, completed } = req.body;
+    if (!project_id || !description || !notes, completed === undefined) {
+      res.status(400).json({
+        message: "project_id, description, notes, and completed fields required"
+      })
+    } else if (description.length > 128) {
+        res.json({
+            message: 'description must be no longer than 128 characters'
+        })
+    } else {
+      req.project_id = project_id
+      req.description = description
+      req.notes = notes
+      req.completed = completed
+      next()
+    }
+  }
+
+  
+
   module.exports = {
     validateActionId,
-    validateAction
+    validateAction,
+    validateActionForPut
   }

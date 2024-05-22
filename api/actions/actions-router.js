@@ -2,7 +2,7 @@
 const express = require('express');
 const Actions = require('../actions/actions-model');
 // add middleware
-const { validateActionId, validateAction } = require('../actions/actions-middlware')
+const { validateActionId, validateAction, validateActionForPut } = require('../actions/actions-middlware')
 const { validateProjectId } = require('../projects/projects-middleware')
 
 const router = express.Router();
@@ -34,5 +34,14 @@ router.post('/', validateProjectId, validateAction, async (req, res, next) => {
     catch{(next)}
 })
 
+router.put('/:id', validateActionForPut, async (req, res, next) => {
+    try {
+      await Actions.update(req.params.id, { project_id: req.project_id, description: req.description, notes: req.notes, completed: req.completed });
+      const updated = await Actions.get(req.params.id);
+      res.json(updated);
+    } catch (err) {
+      next(err);
+    }
+  });
 
 module.exports = router
