@@ -44,4 +44,15 @@ router.put('/:id', validateActionForPut, async (req, res, next) => {
     }
   });
 
+  router.delete('/:id', validateActionId, (req, res, next) => {
+    Actions.remove(req.params.id)
+        .then(action => {
+            action = req.action
+            res.json(action)
+        })
+        .catch(err => {
+            next(err)
+        })
+  })
+
 module.exports = router
