@@ -34,6 +34,7 @@ async function validateProjectId(req, res, next) {
       next()
     }
   }
+  
   function validateProjectForPut(req, res, next) {
     // DO YOUR MAGIC
     const { name, description, completed } = req.body;
